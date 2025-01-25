@@ -9,6 +9,7 @@ import "context"
 // This package contains two implementations of the ILogger interface:
 // 1. ctxlog.NewWrapper - a real implementation that allows wrapping ctxlog.Logger in this interface.
 // 2. ctxlog.NewStubWrapper - a real implementation that allows logging in the context, but does not do anything.
+// WARNING: args must be even in the form of a key-value pair for structured logging.
 type ILogger interface {
 	Debug(ctx context.Context, msg string, args ...any)
 	Info(ctx context.Context, msg string, args ...any)
