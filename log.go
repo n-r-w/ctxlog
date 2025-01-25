@@ -2,6 +2,7 @@
 package ctxlog
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"log/slog"
@@ -148,6 +149,26 @@ func (l *Logger) WithGroup(name string) *Logger {
 		Logger:    l.Logger.WithGroup(name),
 		zapLogger: l.zapLogger,
 	}
+}
+
+// Debug is implement ILogger interface.
+func (l *Logger) Debug(ctx context.Context, msg string, args ...any) {
+	l.DebugContext(ctx, msg, args...)
+}
+
+// Info is implement ILogger interface.
+func (l *Logger) Info(ctx context.Context, msg string, args ...any) {
+	l.InfoContext(ctx, msg, args...)
+}
+
+// Warn is implement ILogger interface.
+func (l *Logger) Warn(ctx context.Context, msg string, args ...any) {
+	l.WarnContext(ctx, msg, args...)
+}
+
+// Error is implement ILogger interface.
+func (l *Logger) Error(ctx context.Context, msg string, args ...any) {
+	l.ErrorContext(ctx, msg, args...)
 }
 
 func zapLevel(level slog.Leveler) zapcore.Level {

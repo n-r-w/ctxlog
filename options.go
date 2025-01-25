@@ -25,11 +25,9 @@ const (
 // and "PROD" and "PRODUCTION" for Production mode.
 func EnvTypeFromString(s string) (EnvType, error) {
 	switch s {
-	case "DEV":
-	case "DEVELOPMENT":
+	case "DEV", "DEVELOPMENT":
 		return EnvDevelopment, nil
-	case "PROD":
-	case "PRODUCTION":
+	case "PROD", "PRODUCTION":
 		return EnvProduction, nil
 	}
 

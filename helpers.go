@@ -77,6 +77,6 @@ func CloseError(ctx context.Context, c io.Closer) {
 	log := FromContext(ctx)
 	t := reflect.TypeOf(c).String()
 	if err := c.Close(); err != nil {
-		log.Error("failed to close", slog.String("type", t), slog.Any("error", err))
+		log.Error(ctx, "failed to close", slog.String("type", t), slog.Any("error", err))
 	}
 }

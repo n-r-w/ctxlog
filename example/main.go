@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	envType, err := ctxlog.EnvTypeFromString("DEV") // or "PROD"
+	envType, err := ctxlog.EnvTypeFromString("PROD") // or "DEV"
 	if err != nil {
 		panic(err)
 	}
@@ -36,6 +36,8 @@ func main() {
 
 	// CloseError close io.Closer and log any error
 	ctxlog.CloseError(ctx, &SomeCloser{})
+
+	ctxlog.Info(ctx, "finished application")
 }
 
 func WorkingWithContextExample(ctx context.Context) {
@@ -60,7 +62,7 @@ func WorkingWithContextExample(ctx context.Context) {
 func ExtractFromContext(ctx context.Context) {
 	// Extracting from context
 	logger := ctxlog.FromContext(ctx)
-	logger.Info("direct usage of logger")
+	logger.Info(ctx, "direct usage of logger")
 }
 
 type SomeCloser struct{}
