@@ -12,22 +12,20 @@ func NewWrapper() ILogger {
 
 type wrapper struct{}
 
-const defaultWrapperSkipCallStack = 7
-
 func (w *wrapper) Debug(ctx context.Context, msg string, args ...any) {
-	LogWithLevel(ctx, slog.LevelDebug, msg, defaultWrapperSkipCallStack, args...)
+	LogWithLevel(ctx, slog.LevelDebug, msg, defaultSkipCallStack, args...)
 }
 
 func (w *wrapper) Info(ctx context.Context, msg string, args ...any) {
-	LogWithLevel(ctx, slog.LevelInfo, msg, defaultWrapperSkipCallStack, args...)
+	LogWithLevel(ctx, slog.LevelInfo, msg, defaultSkipCallStack, args...)
 }
 
 func (w *wrapper) Warn(ctx context.Context, msg string, args ...any) {
-	LogWithLevel(ctx, slog.LevelWarn, msg, defaultWrapperSkipCallStack, args...)
+	LogWithLevel(ctx, slog.LevelWarn, msg, defaultSkipCallStack, args...)
 }
 
 func (w *wrapper) Error(ctx context.Context, msg string, args ...any) {
-	LogWithLevel(ctx, slog.LevelError, msg, defaultWrapperSkipCallStack, args...)
+	LogWithLevel(ctx, slog.LevelError, msg, defaultSkipCallStack, args...)
 }
 
 type stubWrapper struct{}
