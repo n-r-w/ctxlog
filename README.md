@@ -2,6 +2,8 @@
 
 A context-aware structured logging package for Go that provides a robust wrapper around `log/slog` with enhanced functionality and configuration options. Under the hood, it uses `go.uber.org/zap` as the logging backend for optimal performance and reliability.
 
+[![Go Reference](https://pkg.go.dev/badge/github.com/n-r-w/ctxlog.svg)](https://pkg.go.dev/github.com/n-r-w/ctxlog)
+
 ## Package Overview
 
 CTXLog is designed to simplify structured logging in Go applications by providing context-aware logging capabilities with support for both development and production environments. It seamlessly integrates with Go's standard `log/slog` package while adding powerful features like context propagation, sampling, and OpenTelemetry integration. The package leverages `go.uber.org/zap` as its logging backend, combining the convenience of `slog`'s interface with Zap's high-performance logging capabilities.
