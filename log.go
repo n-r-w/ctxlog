@@ -52,6 +52,8 @@ func New(opts ...Option) (*Logger, error) {
 		opt(&o)
 	}
 
+	zLevel := zapLevel(o.level)
+
 	var zapConf zap.Config
 	switch o.env {
 	case EnvDevelopment:
@@ -61,7 +63,7 @@ func New(opts ...Option) (*Logger, error) {
 		zapConf = zap.NewProductionConfig()
 	}
 	zapConf.EncoderConfig.EncodeTime = zapcore.TimeEncoderOfLayout(o.timeLayout)
-	zapConf.Level = zap.NewAtomicLevelAt(zapLevel(o.level))
+	zapConf.Level = zap.NewAtomicLevelAt(zLevel)
 
 	zapLogger, err := zapConf.Build()
 	if err != nil {
@@ -69,7 +71,11 @@ func New(opts ...Option) (*Logger, error) {
 	}
 
 	if o.testTB != nil {
-		zapLogger = zaptest.NewLogger(o.testTB)
+		var zo []zap.Option
+		if o.env == EnvDevelopment {
+			zo = append(zo, zap.Development())
+		}
+		zapLogger = zaptest.NewLogger(o.testTB, zaptest.Level(zLevel), zaptest.WrapOptions(zo...))
 	}
 
 	return newLoggerHelper(zapLogger, o), nil
