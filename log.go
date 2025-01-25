@@ -42,16 +42,13 @@ type options struct {
 // Default: Development mode, Debug level, with call source display.
 func New(opts ...Option) (*Logger, error) {
 	o := options{
-		env:       EnvDevelopment,
-		level:     slog.LevelDebug,
-		addSource: true,
+		env:        EnvProduction,
+		level:      slog.LevelDebug,
+		addSource:  true,
+		timeLayout: time.RFC3339Nano,
 	}
 	for _, opt := range opts {
 		opt(&o)
-	}
-
-	if o.timeLayout == "" {
-		o.timeLayout = time.RFC3339Nano
 	}
 
 	var zapConf zap.Config

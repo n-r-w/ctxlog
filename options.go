@@ -40,6 +40,7 @@ func EnvTypeFromString(s string) (EnvType, error) {
 type Option func(*options)
 
 // WithEnvType sets the logger environment mode.
+// default: EnvProduction.
 func WithEnvType(env EnvType) Option {
 	return func(o *options) {
 		o.env = env

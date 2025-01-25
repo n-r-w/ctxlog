@@ -29,7 +29,7 @@ The logger can be configured using the following options:
 
 - `WithEnvType()`: Sets the logger environment mode
   - `EnvDevelopment`: Human-readable logs for development
-  - `EnvProduction`: JSON logs for production
+  - `EnvProduction`: JSON logs for production (default)
 
 ### Log Level and Source
 
