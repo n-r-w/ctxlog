@@ -70,3 +70,12 @@ See [example/main.go](example/main.go) for comprehensive usage examples, includi
 - Working with context-bound loggers
 
 The example demonstrates all major features and provides a practical reference for integrating CTXLog into your application.
+
+## ILogger Interface
+
+ILogger is a logger interface to extract the logger implementation from the project to external dependencies.
+
+This package contains two implementations of the ctxlog.ILogger interface:
+
+- ctxlog.NewWrapper - allows wrapping ctxlog.Logger in this interface.
+- ctxlog.NewStubWrapper - fake logging. It does not do anything.

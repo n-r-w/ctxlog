@@ -4,6 +4,7 @@ go 1.23
 
 require (
 	github.com/uptrace/opentelemetry-go-extra/otelzap v0.2.4
+	go.uber.org/mock v0.5.0
 	go.uber.org/zap v1.27.0
 	go.uber.org/zap/exp v0.3.0
 )
