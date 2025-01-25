@@ -90,3 +90,11 @@ func WithTesting(t testing.TB) Option {
 		o.testTB = t
 	}
 }
+
+// WithTimeLayout sets the time layout for the logger.
+// default: time.RFC3339Nano.
+func WithTimeLayout(layout string) Option {
+	return func(o *options) {
+		o.timeLayout = layout
+	}
+}

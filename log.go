@@ -35,6 +35,7 @@ type options struct {
 	samplingFirst      int
 	samplingThereafter int
 	otel               bool
+	timeLayout         string
 }
 
 // New creates a new logger.
@@ -49,6 +50,10 @@ func New(opts ...Option) (*Logger, error) {
 		opt(&o)
 	}
 
+	if o.timeLayout == "" {
+		o.timeLayout = time.RFC3339Nano
+	}
+
 	var zapConf zap.Config
 	switch o.env {
 	case EnvDevelopment:
@@ -57,6 +62,7 @@ func New(opts ...Option) (*Logger, error) {
 	case EnvProduction:
 		zapConf = zap.NewProductionConfig()
 	}
+	zapConf.EncoderConfig.EncodeTime = zapcore.TimeEncoderOfLayout(o.timeLayout)
 	zapConf.Level = zap.NewAtomicLevelAt(zapLevel(o.level))
 
 	zapLogger, err := zapConf.Build()
