@@ -7,29 +7,31 @@ import (
 	"reflect"
 )
 
+const defaultSkipCallStack = 6
+
 // Debug logs a message at Debug level. Uses context to get the logger.
 func Debug(ctx context.Context, msg string, attrs ...any) {
-	logHelper(ctx, slog.LevelDebug, msg, attrs...)
+	LogWithLevel(ctx, slog.LevelDebug, msg, defaultSkipCallStack, attrs...)
 }
 
 // Info logs a message at Info level. Uses context to get the logger.
 func Info(ctx context.Context, msg string, attrs ...any) {
-	logHelper(ctx, slog.LevelInfo, msg, attrs...)
+	LogWithLevel(ctx, slog.LevelInfo, msg, defaultSkipCallStack, attrs...)
 }
 
 // Warn logs a message at Warn level. Uses context to get the logger.
 func Warn(ctx context.Context, msg string, attrs ...any) {
-	logHelper(ctx, slog.LevelWarn, msg, attrs...)
+	LogWithLevel(ctx, slog.LevelWarn, msg, defaultSkipCallStack, attrs...)
 }
 
 // Error logs a message at Error level. Uses context to get the logger.
 func Error(ctx context.Context, msg string, attrs ...any) {
-	logHelper(ctx, slog.LevelError, msg, attrs...)
+	LogWithLevel(ctx, slog.LevelError, msg, defaultSkipCallStack, attrs...)
 }
 
 // Log logs a message at the specified level. Uses context to get the logger.
 func Log(ctx context.Context, level slog.Level, msg string, attrs ...any) {
-	logHelper(ctx, level, msg, attrs...)
+	LogWithLevel(ctx, level, msg, defaultSkipCallStack, attrs...)
 }
 
 // With returns a logger that includes the specified attributes.
@@ -53,12 +55,12 @@ func GetSkipCallStack(ctx context.Context) (int, bool) {
 	return v, ok
 }
 
-func logHelper(ctx context.Context, level slog.Level, msg string, attrs ...any) {
+// LogWithLevel logs a message at the specified level and stack frame skip.
+func LogWithLevel(ctx context.Context, level slog.Level, msg string, skip int, attrs ...any) {
 	logger := FromContext(ctx)
 
 	if _, ok := GetSkipCallStack(ctx); !ok {
 		// skip the call stack
-		const skip = 6
 		ctx = SetSkipCallStack(ctx, skip)
 	}
 

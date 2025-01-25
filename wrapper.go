@@ -2,6 +2,7 @@ package ctxlog
 
 import (
 	"context"
+	"log/slog"
 )
 
 // NewWrapper returns a new wrapper that implements the ILogger interface.
@@ -11,20 +12,22 @@ func NewWrapper() ILogger {
 
 type wrapper struct{}
 
+const defaultWrapperSkipCallStack = 7
+
 func (w *wrapper) Debug(ctx context.Context, msg string, args ...any) {
-	Debug(ctx, msg, args...)
+	LogWithLevel(ctx, slog.LevelDebug, msg, defaultWrapperSkipCallStack, args...)
 }
 
 func (w *wrapper) Info(ctx context.Context, msg string, args ...any) {
-	Info(ctx, msg, args...)
+	LogWithLevel(ctx, slog.LevelInfo, msg, defaultWrapperSkipCallStack, args...)
 }
 
 func (w *wrapper) Warn(ctx context.Context, msg string, args ...any) {
-	Warn(ctx, msg, args...)
+	LogWithLevel(ctx, slog.LevelWarn, msg, defaultWrapperSkipCallStack, args...)
 }
 
 func (w *wrapper) Error(ctx context.Context, msg string, args ...any) {
-	Error(ctx, msg, args...)
+	LogWithLevel(ctx, slog.LevelError, msg, defaultWrapperSkipCallStack, args...)
 }
 
 type stubWrapper struct{}
