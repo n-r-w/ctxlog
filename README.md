@@ -27,8 +27,9 @@ The logger can be configured using the following options:
 
 ### Environment Mode
 
-- `WithDevelopment()`: (Default) Sets readable format with colored level display
-- `WithProduction()`: Sets compact JSON format without color
+- `WithEnvType()`: Sets the logger environment mode
+  - `EnvDevelopment`: Human-readable logs for development
+  - `EnvProduction`: JSON logs for production
 
 ### Log Level and Source
 

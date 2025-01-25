@@ -10,10 +10,15 @@ import (
 )
 
 func main() {
+	envType, err := ctxlog.EnvTypeFromString("DEV") // or "PROD"
+	if err != nil {
+		panic(err)
+	}
+
 	ctx := ctxlog.MustContext(
 		context.Background(),
 		ctxlog.WithName("myapp"),
-		ctxlog.WithDevelopment(),
+		ctxlog.WithEnvType(envType),
 		ctxlog.WithLevel(slog.LevelDebug),
 	)
 	defer func() { _ = ctxlog.Sync(ctx) }()

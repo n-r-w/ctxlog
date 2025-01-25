@@ -25,15 +25,8 @@ type Logger struct {
 	otelLogger *otelzap.Logger
 }
 
-type environmentType int
-
-const (
-	developmentEnv environmentType = iota
-	productionEnv
-)
-
 type options struct {
-	env                environmentType
+	env                EnvType
 	level              slog.Leveler
 	addSource          bool
 	name               string
@@ -48,7 +41,7 @@ type options struct {
 // Default: Development mode, Debug level, with call source display.
 func New(opts ...Option) (*Logger, error) {
 	o := options{
-		env:       developmentEnv,
+		env:       EnvDevelopment,
 		level:     slog.LevelDebug,
 		addSource: true,
 	}
@@ -58,10 +51,10 @@ func New(opts ...Option) (*Logger, error) {
 
 	var zapConf zap.Config
 	switch o.env {
-	case developmentEnv:
+	case EnvDevelopment:
 		zapConf = zap.NewDevelopmentConfig()
 		zapConf.EncoderConfig.EncodeLevel = zapcore.CapitalColorLevelEncoder
-	case productionEnv:
+	case EnvProduction:
 		zapConf = zap.NewProductionConfig()
 	}
 	zapConf.Level = zap.NewAtomicLevelAt(zapLevel(o.level))

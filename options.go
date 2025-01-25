@@ -1,27 +1,48 @@
 package ctxlog
 
 import (
+	"fmt"
 	"log/slog"
 	"testing"
 	"time"
 )
 
+// EnvType is a logger environment mode.
+type EnvType int
+
+const (
+	// EnvDevelopment (default) sets the logger to Development mode.
+	// Uses a readable format with colored level display.
+	EnvDevelopment EnvType = iota
+
+	// EnvProduction sets the logger to Production mode.
+	// Uses a compact JSON format without colored level display.
+	EnvProduction
+)
+
+// EnvTypeFromString returns the EnvType for a string.
+// Accepts "DEV" and "DEVELOPMENT" for Development mode,
+// and "PROD" and "PRODUCTION" for Production mode.
+func EnvTypeFromString(s string) (EnvType, error) {
+	switch s {
+	case "DEV":
+	case "DEVELOPMENT":
+		return EnvDevelopment, nil
+	case "PROD":
+	case "PRODUCTION":
+		return EnvProduction, nil
+	}
+
+	return EnvDevelopment, fmt.Errorf("unknown environment type: %s", s)
+}
+
 // Option is a function for configuring the logger.
 type Option func(*options)
 
-// WithDevelopment (default) sets the logger to Development mode.
-// Development uses a readable format with colored level display.
-func WithDevelopment() Option {
+// WithEnvType sets the logger environment mode.
+func WithEnvType(env EnvType) Option {
 	return func(o *options) {
-		o.env = developmentEnv
-	}
-}
-
-// WithProduction sets the logger to Production mode.
-// Production uses a compact JSON format without colored level display.
-func WithProduction() Option {
-	return func(o *options) {
-		o.env = productionEnv
+		o.env = env
 	}
 }
 
