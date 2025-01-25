@@ -58,13 +58,7 @@ func GetSkipCallStack(ctx context.Context) (int, bool) {
 // LogWithLevel logs a message at the specified level and stack frame skip.
 func LogWithLevel(ctx context.Context, level slog.Level, msg string, skip int, attrs ...any) {
 	logger := FromContext(ctx)
-
-	if _, ok := GetSkipCallStack(ctx); !ok {
-		// skip the call stack
-		ctx = SetSkipCallStack(ctx, skip)
-	}
-
-	logger.Log(ctx, level, msg, attrs...)
+	logger.LogWithLevel(ctx, level, msg, skip+1, attrs...)
 }
 
 // Sync synchronizes logging in the context.

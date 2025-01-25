@@ -159,22 +159,32 @@ func (l *Logger) WithGroup(name string) *Logger {
 
 // Debug is implement ILogger interface.
 func (l *Logger) Debug(ctx context.Context, msg string, args ...any) {
-	l.DebugContext(ctx, msg, args...)
+	l.LogWithLevel(ctx, slog.LevelDebug, msg, defaultSkipCallStack, args...)
 }
 
 // Info is implement ILogger interface.
 func (l *Logger) Info(ctx context.Context, msg string, args ...any) {
-	l.InfoContext(ctx, msg, args...)
+	l.LogWithLevel(ctx, slog.LevelInfo, msg, defaultSkipCallStack, args...)
 }
 
 // Warn is implement ILogger interface.
 func (l *Logger) Warn(ctx context.Context, msg string, args ...any) {
-	l.WarnContext(ctx, msg, args...)
+	l.LogWithLevel(ctx, slog.LevelWarn, msg, defaultSkipCallStack, args...)
 }
 
 // Error is implement ILogger interface.
 func (l *Logger) Error(ctx context.Context, msg string, args ...any) {
-	l.ErrorContext(ctx, msg, args...)
+	l.LogWithLevel(ctx, slog.LevelError, msg, defaultSkipCallStack, args...)
+}
+
+// LogWithLevel logs a message at the specified level and stack frame skip.
+func (l *Logger) LogWithLevel(ctx context.Context, level slog.Level, msg string, skip int, attrs ...any) {
+	if _, ok := GetSkipCallStack(ctx); !ok {
+		// skip the call stack
+		ctx = SetSkipCallStack(ctx, skip)
+	}
+
+	l.Log(ctx, level, msg, attrs...)
 }
 
 func zapLevel(level slog.Leveler) zapcore.Level {
