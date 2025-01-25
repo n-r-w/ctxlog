@@ -10,19 +10,17 @@ import (
 )
 
 func main() {
-	logger := ctxlog.Must(
+	ctx := ctxlog.MustContext(
+		context.Background(),
 		ctxlog.WithName("myapp"),
 		ctxlog.WithDevelopment(),
 		ctxlog.WithLevel(slog.LevelDebug),
 	)
-	defer func() { _ = logger.Sync() }()
+	defer func() { _ = ctxlog.Sync(ctx) }()
 
 	// Each output using the logger will add the path to the file and line number
 
-	// Moving to context
-	ctx := ctxlog.ToContext(context.Background(), logger)
-
-	// Working with context
+	// Working with logger in context
 	WorkingWithContextExample(ctx)
 
 	// Extracting from context and direct usage of logger

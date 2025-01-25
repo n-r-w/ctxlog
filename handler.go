@@ -95,3 +95,18 @@ func (h handler) WithGroup(group string) slog.Handler {
 		h.level,
 		h.logSource)
 }
+
+// NewContext returns a new context with the logger.
+func NewContext(ctx context.Context, opts ...Option) (context.Context, error) {
+	l, err := New(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ToContext(ctx, l), nil
+}
+
+// MustContext returns a new context with the logger. Panics if the logger cannot be created.
+func MustContext(ctx context.Context, opts ...Option) context.Context {
+	l := Must(opts...)
+	return ToContext(ctx, l)
+}
