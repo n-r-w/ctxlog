@@ -19,6 +19,11 @@ func ToContext(ctx context.Context, logger *Logger) context.Context {
 	return context.WithValue(ctx, ctxLogFieldsKey, logger)
 }
 
+// ToContextFromContext extracts the logger from ctxWithLogger and adds it to targetCtx.
+func ToContextFromContext(targetCtx, ctxWithLogger context.Context) context.Context {
+	return ToContext(targetCtx, FromContext(ctxWithLogger))
+}
+
 // FromContext returns the logger from the context.
 // If the context does not have a logger, it panics.
 func FromContext(ctx context.Context) *Logger {
@@ -44,6 +49,12 @@ func TryFromContext(ctx context.Context) (*Logger, bool) {
 	}
 
 	return nil, false
+}
+
+// InContext returns true if the context has a logger.
+func InContext(ctx context.Context) bool {
+	_, ok := TryFromContext(ctx)
+	return ok
 }
 
 // ToTestContext returns a context where logs will be written to testing.TB.
