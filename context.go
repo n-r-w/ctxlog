@@ -57,6 +57,21 @@ func InContext(ctx context.Context) bool {
 	return ok
 }
 
+// NewContext returns a new context with the logger.
+func NewContext(ctx context.Context, opts ...Option) (context.Context, error) {
+	l, err := New(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ToContext(ctx, l), nil
+}
+
+// MustContext returns a new context with the logger. Panics if the logger cannot be created.
+func MustContext(ctx context.Context, opts ...Option) context.Context {
+	l := Must(opts...)
+	return ToContext(ctx, l)
+}
+
 // ToTestContext returns a context where logs will be written to testing.TB.
 func ToTestContext(ctx context.Context, t testing.TB) context.Context {
 	t.Helper()

@@ -32,6 +32,7 @@ type options struct {
 	addSource          bool
 	name               string
 	testTB             testing.TB
+	testBuffer         *zaptest.Buffer // Buffer for capturing test output
 	samplingTick       time.Duration
 	samplingFirst      int
 	samplingThereafter int
@@ -50,6 +51,10 @@ func New(opts ...Option) (*Logger, error) {
 	}
 	for _, opt := range opts {
 		opt(&o)
+	}
+
+	if err := validateOptions(o); err != nil {
+		return nil, err
 	}
 
 	zLevel := zapLevel(o.level)
@@ -71,14 +76,48 @@ func New(opts ...Option) (*Logger, error) {
 	}
 
 	if o.testTB != nil {
-		var zo []zap.Option
-		if o.env == EnvDevelopment {
-			zo = append(zo, zap.Development())
+		if o.testBuffer == nil {
+			// General test logger
+			var zo []zap.Option
+			if o.env == EnvDevelopment {
+				zo = append(zo, zap.Development())
+			}
+			zapLogger = zaptest.NewLogger(o.testTB, zaptest.Level(zLevel), zaptest.WrapOptions(zo...))
+		} else {
+			// Create test logger with buffer
+			encConfig := zapcore.EncoderConfig{
+				MessageKey:     "msg",
+				LevelKey:       "level",
+				TimeKey:        "time",
+				NameKey:        "logger",
+				CallerKey:      "caller",
+				FunctionKey:    zapcore.OmitKey,
+				StacktraceKey:  "stacktrace",
+				EncodeLevel:    zapcore.CapitalLevelEncoder,
+				EncodeTime:     zapcore.ISO8601TimeEncoder,
+				EncodeDuration: zapcore.StringDurationEncoder,
+				EncodeCaller:   zapcore.ShortCallerEncoder,
+			}
+
+			// Create test logger with buffer
+			core := zapcore.NewCore(
+				zapcore.NewConsoleEncoder(encConfig),
+				o.testBuffer,
+				zLevel,
+			)
+			zapLogger = zap.New(core)
 		}
-		zapLogger = zaptest.NewLogger(o.testTB, zaptest.Level(zLevel), zaptest.WrapOptions(zo...))
 	}
 
 	return newLoggerHelper(zapLogger, o), nil
+}
+
+func validateOptions(opts options) error {
+	if opts.testBuffer != nil && opts.testTB == nil {
+		return errors.New("test buffer is set but test TB is not set")
+	}
+
+	return nil
 }
 
 func newLoggerHelper(zapLogger *zap.Logger, opts options) *Logger {

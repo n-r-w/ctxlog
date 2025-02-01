@@ -5,6 +5,9 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    ignore:
+      # after v0.2.4, the otelzap.WithTraceIDField method is not available
+      - dependency-name: "github.com/uptrace/opentelemetry-go-extra/otelzap"
   # Maintain dependencies for GitHub Actions
   - package-ecosystem: "github-actions"
     directory: "/"
