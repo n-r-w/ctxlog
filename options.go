@@ -5,6 +5,8 @@ import (
 	"log/slog"
 	"testing"
 	"time"
+
+	"go.uber.org/zap/zaptest"
 )
 
 // EnvType is a logger environment mode.
@@ -46,13 +48,15 @@ func WithEnvType(env EnvType) Option {
 }
 
 // WithLevel sets the minimum logging level.
+// default: LevelDebug.
 func WithLevel(level slog.Leveler) Option {
 	return func(o *options) {
 		o.level = level
 	}
 }
 
-// WithName sets the logger name.
+// WithName adds a name to logger output.
+// default: empty string.
 func WithName(name string) Option {
 	return func(o *options) {
 		o.name = name
@@ -60,9 +64,10 @@ func WithName(name string) Option {
 }
 
 // WithSource adds the file name and line number of the call to the log record.
-func WithSource() Option {
+// default: true.
+func WithSource(b bool) Option {
 	return func(o *options) {
-		o.addSource = true
+		o.addSource = b
 	}
 }
 
@@ -95,5 +100,14 @@ func WithTesting(t testing.TB) Option {
 func WithTimeLayout(layout string) Option {
 	return func(o *options) {
 		o.timeLayout = layout
+	}
+}
+
+// WithTestBuffer sets a buffer for capturing test output.
+// This is useful for testing log output.
+// Requires the WithTesting option to be set.
+func WithTestBuffer(buffer *zaptest.Buffer) Option {
+	return func(o *options) {
+		o.testBuffer = buffer
 	}
 }
