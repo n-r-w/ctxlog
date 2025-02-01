@@ -94,7 +94,7 @@ func New(opts ...Option) (*Logger, error) {
 				FunctionKey:    zapcore.OmitKey,
 				StacktraceKey:  "stacktrace",
 				EncodeLevel:    zapcore.CapitalLevelEncoder,
-				EncodeTime:     zapcore.ISO8601TimeEncoder,
+				EncodeTime:     zapcore.TimeEncoderOfLayout(o.timeLayout),
 				EncodeDuration: zapcore.StringDurationEncoder,
 				EncodeCaller:   zapcore.ShortCallerEncoder,
 			}
