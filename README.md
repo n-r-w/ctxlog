@@ -36,7 +36,7 @@ The logger can be configured using the following options:
 ### Log Level and Source
 
 - `WithLevel(level slog.Leveler)`: Sets the minimum logging level
-- `WithSource()`: Adds file name and line number to log records
+- `WithSource(bool)`: Adds file name and line number to log records
 
 ### Identification
 
