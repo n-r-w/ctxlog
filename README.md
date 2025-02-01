@@ -3,6 +3,8 @@
 A context-aware structured logging package for Go that provides a robust wrapper around `log/slog` with enhanced functionality and configuration options. Under the hood, it uses `go.uber.org/zap` as the logging backend for optimal performance and reliability.
 
 [![Go Reference](https://pkg.go.dev/badge/github.com/n-r-w/ctxlog.svg)](https://pkg.go.dev/github.com/n-r-w/ctxlog)
+![CI Status](https://github.com/n-r-w/ctxlog/actions/workflows/go.yml/badge.svg)
+[![Go Report Card](https://goreportcard.com/badge/github.com/n-r-w/ctxlog)](https://goreportcard.com/report/github.com/n-r-w/ctxlog)
 
 ## Package Overview
 
