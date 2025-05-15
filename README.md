@@ -81,3 +81,8 @@ This package contains two implementations of the ctxlog.ILogger interface:
 
 - ctxlog.NewWrapper - allows wrapping ctxlog.Logger in this interface.
 - ctxlog.NewStubWrapper - fake logging. It does not do anything.
+
+## Golang Migrate Support
+
+CTXLog provides integration with [golang-migrate/migrate](https://github.com/golang-migrate/migrate) through the `GolangMigrateLogger` adapter. This allows you to use ctxlog as the logging backend for database migrations.
+

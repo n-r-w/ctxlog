@@ -1,6 +1,6 @@
 module github.com/n-r-w/ctxlog
 
-go 1.23
+go 1.23.8
 
 require (
 	github.com/stretchr/testify v1.10.0
