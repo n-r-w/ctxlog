@@ -75,5 +75,15 @@ func MustContext(ctx context.Context, opts ...Option) context.Context {
 // ToTestContext returns a context where logs will be written to testing.TB.
 func ToTestContext(ctx context.Context, t testing.TB) context.Context {
 	t.Helper()
-	return ToContext(ctx, Must(WithTesting(t)))
+	return ToContext(ctx, NewTest(t))
+}
+
+// NewTest returns a new logger for testing.TB.
+func NewTest(t testing.TB, opts ...Option) *Logger {
+	t.Helper()
+	l, err := New(append(opts, WithTesting(t))...)
+	if err != nil {
+		t.Fatal(err)
+	}
+	return l
 }
