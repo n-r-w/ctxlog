@@ -43,7 +43,7 @@ type options struct {
 // New creates a new logger.
 // Default: Development mode, Debug level, with call source display.
 func New(opts ...Option) (*Logger, error) {
-	o := options{
+	o := options{ //nolint:exhaustruct // default options
 		env:        EnvProduction,
 		level:      slog.LevelDebug,
 		addSource:  true,
@@ -85,7 +85,7 @@ func New(opts ...Option) (*Logger, error) {
 			zapLogger = zaptest.NewLogger(o.testTB, zaptest.Level(zLevel), zaptest.WrapOptions(zo...))
 		} else {
 			// Create test logger with buffer
-			encConfig := zapcore.EncoderConfig{
+			encConfig := zapcore.EncoderConfig{ //nolint:exhaustruct // default options
 				MessageKey:     "msg",
 				LevelKey:       "level",
 				TimeKey:        "time",
@@ -137,7 +137,7 @@ func newLoggerHelper(zapLogger *zap.Logger, opts options) *Logger {
 		),
 	)
 
-	l := &Logger{
+	l := &Logger{ //nolint:exhaustruct // default options
 		Logger:    slogLogger,
 		opts:      opts,
 		zapLogger: zapLogger,
@@ -178,7 +178,7 @@ func (l *Logger) With(args ...any) *Logger {
 		return l
 	}
 
-	return &Logger{
+	return &Logger{ //nolint:exhaustruct // default options
 		Logger:    l.Logger.With(args...),
 		zapLogger: l.zapLogger,
 	}
@@ -190,7 +190,7 @@ func (l *Logger) WithGroup(name string) *Logger {
 		return l
 	}
 
-	return &Logger{
+	return &Logger{ //nolint:exhaustruct // default options
 		Logger:    l.Logger.WithGroup(name),
 		zapLogger: l.zapLogger,
 	}

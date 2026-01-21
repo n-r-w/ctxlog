@@ -50,7 +50,7 @@ func TestLogger_OutputFormat(t *testing.T) {
 			t.Parallel()
 
 			// Create a test buffer to capture output.
-			buffer := &zaptest.Buffer{}
+			buffer := &zaptest.Buffer{} //nolint:exhaustruct // default options
 
 			// Create test logger with buffer and verify setup.
 			logger, err := New(
@@ -93,7 +93,7 @@ func TestLogger_WithAttributes(t *testing.T) {
 	t.Parallel()
 
 	// Create a test buffer to capture output
-	buffer := &zaptest.Buffer{}
+	buffer := &zaptest.Buffer{} //nolint:exhaustruct // default options
 
 	// Create logger with test buffer
 	logger, err := New(
@@ -154,7 +154,7 @@ func TestLogger_WithGroup(t *testing.T) {
 			t.Parallel()
 
 			// Create a test buffer to capture output
-			buffer := &zaptest.Buffer{}
+			buffer := &zaptest.Buffer{} //nolint:exhaustruct // default options
 
 			// Create base logger
 			logger, err := New(
@@ -197,7 +197,7 @@ func TestLogger_WithTimeLayout(t *testing.T) {
 	t.Parallel()
 
 	// Create a test buffer to capture output
-	buffer := &zaptest.Buffer{}
+	buffer := &zaptest.Buffer{} //nolint:exhaustruct // default options
 
 	// Use a custom time layout that includes timezone
 	customLayout := "2006-01-02T15:04:05.999-0700"
@@ -235,7 +235,7 @@ func TestLogger_Sampling(t *testing.T) {
 	t.Parallel()
 
 	// Create a buffer to capture log output
-	buf := &zaptest.Buffer{}
+	buf := &zaptest.Buffer{} //nolint:exhaustruct // default options
 
 	logger, err := New(
 		WithEnvType(EnvDevelopment),
@@ -296,7 +296,7 @@ func TestLogger_WithName(t *testing.T) {
 			t.Parallel()
 
 			// Create a test buffer to capture output.
-			buffer := &zaptest.Buffer{}
+			buffer := &zaptest.Buffer{} //nolint:exhaustruct // default options
 
 			// Create logger with test buffer and name.
 			logger, err := New(
@@ -351,7 +351,7 @@ func TestLogger_WithSource(t *testing.T) {
 			t.Parallel()
 
 			// Create a test buffer to capture output.
-			buffer := &zaptest.Buffer{}
+			buffer := &zaptest.Buffer{} //nolint:exhaustruct // default options
 
 			// Create logger with test buffer and source option.
 			logger, err := New(
