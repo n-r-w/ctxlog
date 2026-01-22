@@ -2,9 +2,11 @@ package ctxlog
 
 import (
 	"context"
+	"fmt"
 	"io"
 	"log/slog"
 	"reflect"
+	"strings"
 )
 
 const defaultSkipCallStack = 6
@@ -72,5 +74,21 @@ func CloseError(ctx context.Context, c io.Closer) {
 	t := reflect.TypeOf(c).String()
 	if err := c.Close(); err != nil {
 		log.Error(ctx, "failed to close", slog.String("type", t), slog.Any("error", err))
+	}
+}
+
+// ParseLogLevel parses a string into a slog.Level.
+func ParseLogLevel(levelStr string) (slog.Level, error) {
+	switch strings.ToUpper(strings.TrimSpace(levelStr)) {
+	case "DEBUG":
+		return slog.LevelDebug, nil
+	case "INFO":
+		return slog.LevelInfo, nil
+	case "WARN", "WARNING":
+		return slog.LevelWarn, nil
+	case "ERROR":
+		return slog.LevelError, nil
+	default:
+		return slog.LevelInfo, fmt.Errorf("unknown log level: %q (valid: DEBUG, INFO, WARN, ERROR)", levelStr)
 	}
 }
