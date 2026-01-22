@@ -86,7 +86,7 @@ This package contains two implementations of the ctxlog.ILogger interface:
 
 CTXLog provides integration with [golang-migrate/migrate](https://github.com/golang-migrate/migrate) through the `GolangMigrateLogger` adapter. This allows you to use ctxlog as the logging backend for database migrations.
 
-## SKILL.md for llm agents
+## SKILL.md for LLM agents
 
 [SKILL.md](docs/SKILL.md) contains skill in https://agentskills.io format for LLM agents to use ctxlog package.
 
